@@ -30,7 +30,9 @@ typedef pair< int, pair<int,int> > pii;
 int N,M;
 vector< pi > arr;
 vector<int> ans;
+//previous second values
 unordered_set<int> psv[100005];
+//current chooseable values
 unordered_set<int> ccv;
 
 int main() {
@@ -47,16 +49,20 @@ int main() {
     }
 
     for(int i=N-1;i>=0;i--){
+      //cows first and second values
       int fv=arr[i].first;
       int sv=arr[i].second;
+      //if values had already been seen add in all second values of cows that had previously had the same first value
       if(ccv.count(fv)){
         ccv.insert(psv[fv].begin(),psv[fv].end());
         psv[fv].clear();
       }
+      //add first values to ccv and second to psv
       ccv.insert(fv);
       psv[fv].insert(sv);
       ans.push_back(ccv.size());
     }
+    //output answer backwards
     for(int i=ans.size()-1;i>=0;i--){
         cout<<ans[i]<<'\n';
     }
