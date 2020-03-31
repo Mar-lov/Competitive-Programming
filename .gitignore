@@ -1,2 +1,4 @@
 templates/normalTemplate/cpTemp.cpp
 bin/
+*.exe
+*.exec
