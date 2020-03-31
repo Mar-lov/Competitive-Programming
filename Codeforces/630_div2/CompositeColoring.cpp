@@ -24,7 +24,7 @@ typedef pair<int,int> pi;
 
 
 int main() {
-
+	cout<<"OMW"<<'\n';
     return 0;
 }
 
