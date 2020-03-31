@@ -1,4 +1,4 @@
-#templates/normalTemplate/cpTemp.cpp
+templates/normalTemplate/cpTemp.cpp
 #bin/
 #*.exe
 #*.exec
