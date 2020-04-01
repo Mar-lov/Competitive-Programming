@@ -6,4 +6,4 @@ templates/normalTemplate/cpTemp.cpp
 #*.out
 #*.app
 
-*.dms
+*.sh
