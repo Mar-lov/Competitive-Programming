@@ -7,6 +7,9 @@ templates/normalTemplate/cpTemp.cpp
 #*.app
 
 bin/
+BIN/
+*.BIN
 *.exe
 *.out
 *.app
+*.bin
