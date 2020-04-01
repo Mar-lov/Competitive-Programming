@@ -6,10 +6,4 @@ templates/normalTemplate/cpTemp.cpp
 #*.out
 #*.app
 
-bin/
-BIN/
-*.BIN
-*.exe
-*.out
-*.app
-*.bin
+*.dms
