@@ -1,3 +1,4 @@
 templates/normalTemplate/cpTemp.cpp
-*.bin
-.bin
+*.o
+*.dylib
+*.bundle
