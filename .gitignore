@@ -1,5 +1,4 @@
 templates/normalTemplate/cpTemp.cpp
-*.o
-*.dylib
-*.bundle
-*.exec
+*
+!/**/
+!*.*
