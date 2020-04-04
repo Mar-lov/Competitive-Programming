@@ -32,61 +32,28 @@ typedef pair< pair<int,int>,int > pii;
 
 int N;
 vector< pi > pts;
-int p[maxN];
-int r[maxN];
-int tgc;
-
-int parent(int n){
-  if(n==p[n])return n;
-  return parent(p[n]);
-}
-
-void combine(int a,int b){
-  int pa=parent(a);
-  int pb=parent(b);
-  if(pa!=pb){
-    if(r[pa]<=r[pb]){
-      r[pa]=max(r[pa],r[pb]+1);
-      p[pb]=pa;
-    }else{
-      r[pb]=max(r[pb],r[pa]+1);
-      p[pa]=pb;
-    }
-    tgc--;
-  }
-}
-
-bool inG(pi a,pi b){
-  if(a.f>=b.f&&a.s>=b.s) return true;
-  if(a.f<=b.f&&a.s<=b.s) return true;
-  return false;
-}
+int ans=0;
 
 int main() {
     //input setup
-    ofstream cout ("moop.out");
-    ifstream cin ("moop.in");
+    //ofstream cout ("moop.out");
+    //ifstream cin ("moop.in");
     ios_base::sync_with_stdio(0); cin.tie(0);
     //program
     cin>>N;
-    tgc=N;
-    for(int i=0;i<N;i++){
-      p[i]=i;
-    }
     int a,b;
     for(int i=0;i<N;i++){
       cin>>a>>b;
       pts.push_back({a,b});
     }
-    for(int i=0;i<N;i++){
-      for(int j=1;j<N;j++){
-        if(inG(pts[i],pts[j])){
-          combine(i,j);
-          //cout<<i<<" "<<j<<'\n';
-        }
+    sort(pts.begin(),pts.end());
+    int cm=-1000000000;
+    for(int i=pts.size()-1;i>=0;i--){
+      if(pts[i].second>cm){
+        cm=pts[i].second;
       }
     }
-    cout<<tgc<<'\n';
+    cout<<ans<<'\n';
     return 0;
 }
 

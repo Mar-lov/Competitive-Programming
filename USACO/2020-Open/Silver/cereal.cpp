@@ -37,8 +37,8 @@ unordered_set<int> ccv;
 
 int main() {
     //input setup
-    ofstream cout ("cereal.out");
-    ifstream cin ("cereal.in");
+    //ofstream cout ("cereal.out");
+    //ifstream cin ("cereal.in");
     ios_base::sync_with_stdio(0); cin.tie(0);
     //program
     cin>>N>>M;
