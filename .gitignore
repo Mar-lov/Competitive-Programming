@@ -1,4 +1,11 @@
+#dont add cp temp
 templates/normalTemplate/cpTemp.cpp
+
+#I/O files
+*.out
+*.in
+
+#if it does ot contain a . remove it(for the extentionless executables)
 *
 !/**/
 !*.*
