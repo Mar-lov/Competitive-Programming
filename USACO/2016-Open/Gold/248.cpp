@@ -16,44 +16,38 @@ Code by @marlov
 #include <unordered_map>
 #include <stack>
 #include <queue>
-#include <bitset>
 using namespace std;
 typedef long long ll;
 typedef pair<int,int> pi;
 
-int n;
-char board[20][20];
-int solutions=0;
-int cs=0;
-bitset<30> ld,rd,rw;
+int N;
+int arr[250];
+int dp[250][250];
 
-void solve(int c){
-	if(c==n){
-		solutions++;
-	}else{
-		for(int i=0;i<n;i++){
-			if(board[i][c]!='*'&&!rw[i]&&!ld[(n-1)+(c-i)]&&!rd[c+i]){
-				rw[i]=ld[(n-1)+(c-i)]=rd[c+i]=true;
-				solve(c+1);
-				rw[i]=ld[(n-1)+(c-i)]=rd[c+i]=false;
-			}
-		}
-	}
-}
 int main() {
-	cin>>n;
-	while(n!=0){
-		solutions=0;
-		ld.reset();rd.reset();rw.reset();
-		for(int i=0;i<n;i++){
-			for(int j=0;j<n;j++){
-				cin>>board[i][j];
-			}
-		}
-		solve(0);
-		cout<<"Case "<<++cs<<": "<<solutions<<'\n';
-		cin>>n;
+	ifstream cin("248.in");
+	ofstream cout("248.out");
+	cin>>N;
+	for(int i=0;i<N;i++){
+		cin>>arr[i];
 	}
+	int maxV=0;
+	for(int len=1;len<=N;len++){
+		for(int i=0;i+len<=N;i++){
+			int j=i+len-1;
+			dp[i][j]=-1;
+			if(len==1){
+				dp[i][j]=arr[i];
+			}
+			for(int k=i;k<j;k++){
+				if(dp[i][k]==dp[k+1][j]&&dp[i][k]>0){
+					dp[i][j]=max(dp[i][j],dp[i][k]+1);
+				}
+			}
+			maxV=max(maxV,dp[i][j]);
+		}
+	}
+	cout<<maxV<<'\n';
     return 0;
 }
 

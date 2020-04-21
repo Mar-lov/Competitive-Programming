@@ -16,43 +16,33 @@ Code by @marlov
 #include <unordered_map>
 #include <stack>
 #include <queue>
-#include <bitset>
 using namespace std;
 typedef long long ll;
 typedef pair<int,int> pi;
 
-int n;
-char board[20][20];
-int solutions=0;
-int cs=0;
-bitset<30> ld,rd,rw;
 
-void solve(int c){
-	if(c==n){
-		solutions++;
-	}else{
-		for(int i=0;i<n;i++){
-			if(board[i][c]!='*'&&!rw[i]&&!ld[(n-1)+(c-i)]&&!rd[c+i]){
-				rw[i]=ld[(n-1)+(c-i)]=rd[c+i]=true;
-				solve(c+1);
-				rw[i]=ld[(n-1)+(c-i)]=rd[c+i]=false;
-			}
-		}
-	}
-}
+
+
 int main() {
-	cin>>n;
-	while(n!=0){
-		solutions=0;
-		ld.reset();rd.reset();rw.reset();
-		for(int i=0;i<n;i++){
-			for(int j=0;j<n;j++){
-				cin>>board[i][j];
-			}
-		}
-		solve(0);
-		cout<<"Case "<<++cs<<": "<<solutions<<'\n';
+	int t;
+	cin>>t;
+	while(t--){
+		int n;
 		cin>>n;
+		int arr[n];
+		int sum=0;
+		for(int i=0;i<n;i++){
+			cin>>arr[i];
+			sum+=arr[i];
+		}
+		
+		double average=(double)sum/(double)n;
+		int count =0;
+		for(int i=0;i<n;i++){
+			if((double)arr[i]>average) count++;
+		}
+		cout<<fixed;
+		cout<<setprecision(3)<<100.0*((double)count/(double)n)<<"%"<<'\n';
 	}
     return 0;
 }
