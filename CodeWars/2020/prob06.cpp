@@ -20,28 +20,18 @@ using namespace std;
 typedef long long ll;
 typedef pair<int,int> pi;
 
-#define maxN 10005
+string arr[3][11]={ {"","B","BB","BBB","BW","W","WB","WBB","WBBB","BK",""} , {"","Z","ZZ","ZZZ","ZP","P","PZ","PZZ","PZZZ","ZB",""} , {"","B","BB","BBB","BG","G","GB","GBB","GBBB","BR","R"} };
 
-int N,K;
-int arr[maxN];
-int dp[maxN];
+string convert(int N){
+	return arr[2][N/100]+arr[1][(N/10)%10]+arr[0][N%10];
+}
+
 
 int main() {
-	ifstream cin("teamwork.in");
-	ofstream cout("teamwork.out");
-	cin>>N>>K;
-	for(int i=0;i<N;i++){
-		cin>>arr[i];
+	int N;
+	while(cin>>N){
+		cout<<convert(N)<<'\n';
 	}
-	for(int i=0;i<N;i++){
-		int cm=0;
-		for(int j=i;j>=0&&j>i-K;j--){
-			// running sum
-			cm=max(cm,arr[j]);
-		dp[i]=max(dp[i],dp[j-1]+cm*(i-j+1));
-		}
-	}
-	cout<<dp[N-1]<<'\n';
     return 0;
 }
 

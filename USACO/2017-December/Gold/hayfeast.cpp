@@ -18,30 +18,45 @@ Code by @marlov
 #include <queue>
 using namespace std;
 typedef long long ll;
-typedef pair<int,int> pi;
+typedef pair<ll,ll> pi;
 
-#define maxN 10005
+#define maxN 100002
 
-int N,K;
-int arr[maxN];
-int dp[maxN];
+ll N,M;
+pi arr[maxN];
 
-int main() {
-	ifstream cin("teamwork.in");
-	ofstream cout("teamwork.out");
-	cin>>N>>K;
+bool doable(ll s){
+	ll cm=0;
 	for(int i=0;i<N;i++){
-		cin>>arr[i];
-	}
-	for(int i=0;i<N;i++){
-		int cm=0;
-		for(int j=i;j>=0&&j>i-K;j--){
-			// running sum
-			cm=max(cm,arr[j]);
-		dp[i]=max(dp[i],dp[j-1]+cm*(i-j+1));
+		if(arr[i].second<=s){
+			cm+=arr[i].first;
+			if(cm>=M) return true;
+		}else{
+			cm=0;
 		}
 	}
-	cout<<dp[N-1]<<'\n';
+	return false;
+}
+
+int main() {
+	ifstream cin("hayfeast.in");
+	ofstream cout("hayfeast.out");
+	cin>>N>>M;
+	for(int i=0;i<N;i++){
+		cin>>arr[i].first>>arr[i].second;
+	}
+	ll lo=0;
+	ll hi=1000000000000000000;
+	while(lo<hi){
+		ll mid=(lo+hi)/2;
+		
+		if(doable(mid)){
+			hi=mid;
+		}else{
+			lo=mid+1;
+		}
+	}
+	cout<<hi<<'\n';
     return 0;
 }
 

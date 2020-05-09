@@ -20,28 +20,41 @@ using namespace std;
 typedef long long ll;
 typedef pair<int,int> pi;
 
-#define maxN 10005
+#define maxN 100005
 
-int N,K;
-int arr[maxN];
-int dp[maxN];
+int N;
+vector<int> arr;
+vector<int> als;
+vector<int> ans;
 
 int main() {
-	ifstream cin("teamwork.in");
-	ofstream cout("teamwork.out");
-	cin>>N>>K;
+	ifstream cin("sleepy.in");
+	ofstream cout("sleepy.out");
+	cin>>N;
+	arr.resize(N);
 	for(int i=0;i<N;i++){
 		cin>>arr[i];
 	}
-	for(int i=0;i<N;i++){
-		int cm=0;
-		for(int j=i;j>=0&&j>i-K;j--){
-			// running sum
-			cm=max(cm,arr[j]);
-		dp[i]=max(dp[i],dp[j-1]+cm*(i-j+1));
-		}
+
+	int asv=N-2;
+	als.push_back(arr[N-1]);
+	while(asv>=0&&arr[asv]<=arr[asv+1]){
+		als.push_back(arr[asv]);
+		asv--;
 	}
-	cout<<dp[N-1]<<'\n';
+	reverse(als.begin(),als.end());
+
+	for(int i=0;i<=asv;i++){
+		int it=lower_bound(als.begin(),als.end(),arr[i])-als.begin();
+		ans.push_back(it+(asv-i));
+		als.insert(it+als.begin(),arr[i]);
+	}
+
+	cout<<ans.size()<<'\n';
+	for(int i=0;i<ans.size();i++){
+		cout<<ans[i];
+		if(i<ans.size()-1) cout<<" ";
+	}
     return 0;
 }
 

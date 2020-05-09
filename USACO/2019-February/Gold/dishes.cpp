@@ -20,28 +20,36 @@ using namespace std;
 typedef long long ll;
 typedef pair<int,int> pi;
 
-#define maxN 10005
+#define maxN 100005
 
-int N,K;
-int arr[maxN];
-int dp[maxN];
+int N;
+int bottom[maxN];
+vector<int> items[maxN];
 
 int main() {
-	ifstream cin("teamwork.in");
-	ofstream cout("teamwork.out");
-	cin>>N>>K;
+	ifstream cin("dishes.in");
+	ofstream cout("dishes.out");
+	cin>>N;
+	int mp=0;
+	int ans=0;
+	int x;
 	for(int i=0;i<N;i++){
-		cin>>arr[i];
-	}
-	for(int i=0;i<N;i++){
-		int cm=0;
-		for(int j=i;j>=0&&j>i-K;j--){
-			// running sum
-			cm=max(cm,arr[j]);
-		dp[i]=max(dp[i],dp[j-1]+cm*(i-j+1));
+		cin>>x;
+		if(x<mp){
+			ans=i;
+			break;
 		}
+		for(int i=x;i>0&&bottom[i]==0;i--){
+			bottom[i]=x;
+		}
+		while(!items[bottom[x]].empty()&&items[bottom[x]].back()<x){
+			mp=items[bottom[x]].back();
+			items[bottom[x]].pop_back();
+		}
+		items[bottom[x]].push_back(x);
 	}
-	cout<<dp[N-1]<<'\n';
+
+	cout<<ans<<'\n';
     return 0;
 }
 

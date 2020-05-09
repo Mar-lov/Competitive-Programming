@@ -20,28 +20,43 @@ using namespace std;
 typedef long long ll;
 typedef pair<int,int> pi;
 
-#define maxN 10005
-
+const int maxG=202;
 int N,K;
-int arr[maxN];
-int dp[maxN];
+int ans=0;
+int wall[maxG][maxG];
+int actual[maxG][maxG];
 
 int main() {
-	ifstream cin("teamwork.in");
-	ofstream cout("teamwork.out");
 	cin>>N>>K;
+	int a,b,c,d;
 	for(int i=0;i<N;i++){
-		cin>>arr[i];
-	}
-	for(int i=0;i<N;i++){
-		int cm=0;
-		for(int j=i;j>=0&&j>i-K;j--){
-			// running sum
-			cm=max(cm,arr[j]);
-		dp[i]=max(dp[i],dp[j-1]+cm*(i-j+1));
+		cin>>a>>b>>c>>d;
+		a++;b++;c++;d++;
+		for(int j=a;j<c;j++){
+			wall[j][b]++;
+			wall[j][d]--;
 		}
 	}
-	cout<<dp[N-1]<<'\n';
+	for(int i=1;i<maxG;i++){
+		int delta=0;
+		for(int j=1;j<maxG;j++){
+			delta+=wall[i][j];
+			wall[i][j]=delta;
+			if(wall[i][j]==K-1) actual[i][j]=1;
+			if(wall[i][j]==K){
+				 ans++;
+				actual[i][j]=-1;
+			}
+		}
+	}
+	for(int i=1;i<maxG;i++){
+		for(int j=1;j<maxG;j++){
+			actual[i][j]+=actual[i-1][j];
+			actual[i][j]+=actual[i][j-1];
+			actual[i][j]-=actual[i-1][j-1];
+		}
+	}
+	//for(int )
     return 0;
 }
 
