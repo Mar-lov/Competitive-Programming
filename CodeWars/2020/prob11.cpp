@@ -16,17 +16,38 @@ Code by @marlov
 #include <unordered_map>
 #include <stack>
 #include <queue>
-#include <iterator>
-#include <sstream>
 using namespace std;
 typedef long long ll;
 typedef pair<int,int> pi;
 
+string br(int n){
+	string s="";
+	while(n>0){
+		if((n&1)==1) s+="1";
+		else s+="0";
+		n/=2;
+	}
+	reverse(s.begin(),s.end());
+	return s;
+}
 
+bool isCyclops(int n){
+	string s=br(n);
+	//cout<<s<<'\n';
+	int zc=0;
+	for(int i=0;i<s.length();i++){
+		if(s[i]=='0') zc++;
+	}
+	return s.length()%2==1&&zc==1&&s[s.length()/2]=='0';
+}
 
 
 int main() {
-
+	int cur;
+	while(cin>>cur){
+		//cout<<cur<<'\n';
+		cout<<cur<<" "<<(isCyclops(cur)?"yes":"no")<<'\n';
+	}
     return 0;
 }
 

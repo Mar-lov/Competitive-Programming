@@ -26,7 +26,7 @@ typedef pair<int,int> pi;
 
 
 int main() {
-
+	cout<<hex<<(int)'a'<<'\n';
     return 0;
 }
 

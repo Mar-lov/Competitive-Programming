@@ -20,68 +20,67 @@ using namespace std;
 typedef long long ll;
 typedef pair<ll,ll> pi;
 
-#define MOD 1000000009
 
-string s[2];
+#define maxN 1000002
+#define MOD 1000000007
+#define base 5
 
-ll power(ll base,ll exp){
-	if(exp==1) return base;
-	long long save=power(base,exp/2);
+string s,t;
+string n;
+ll th=0;
+ll h[maxN];
+
+ll power(ll b,ll p){
+	if(p==1) return b;
+	ll save=power(b,p/2);
 	save*=save;
-	save%=MOD;
-	if(exp%2==1){
-		save=(save)*(base%MOD);
-	}
+	if(p%2==1) save*=b;
 	return save%MOD;
-}
-
-ll hashF(ll which,ll start,ll len,ll base){
-	ll val=0;
-	for(ll i=0;i<len;i++){
-		val+=power(base,i+1)*(s[which][start+i]-'a'+1);
-		val%=MOD;
-		//cout<<val<<'\n';
-	}
-	return val;
-}
-ll roll(ll which,ll start,ll len,ll val,ll base){
-	val-=base*(s[which][start]-'a'+1);
-	ll z=power(base,MOD-2);
-	z%=MOD;
-	return (((val%MOD)*z+power(base,len)*(s[which][start+len]-'a'+1))%MOD);
 }
 
 int main() {
 	ifstream cin("censor.in");
 	ofstream cout("censor.out");
-	getline(cin,s[0]);
-	getline(cin,s[1]);
-	ll th1=hashF(1,0,s[1].length(),2);
-	ll th2=hashF(1,0,s[1].length(),3);
-	ll len=s[1].length();
-	ll ci=0;
-	ll sh1;
-	ll sh2;
-	bool rhn=true;
-	while(ci+len<s[0].length()){
-		if(rhn){
-			sh1=hashF(0,ci,len,2);
-			sh2=hashF(0,ci,len,3);
-			rhn=false;
-		}else{
-			sh1=roll(0,ci,len,sh1,2);
-			sh2=roll(0,ci,len,sh2,3);
-			ci++;
-		}
-		//cout<<sh1<<" = "<<th1<<" : "<<sh2<<" = "<<th2<<'\n';
-		if(sh1==th1&&sh2==th2){
-			//cout<<"here:"<<ci<<" "<<len<<'\n';
-			s[0].erase(s[0].begin()+ci,s[0].begin()+ci+len);
-			rhn=true;
-			ci=max((ll)0,ci-len);
-		}
+	getline(cin,s);
+	getline(cin,t);
+	ll i=0;
+	ll j=0;
+	for(ll i=0;i<t.length();i++){
+		th+=power(base,i+1)*(t[i]-'a'+1);
+		th%=MOD;
 	}
-	cout<<s[0]<<'\n';
+	while(i<s.length()){
+		n.insert(n.end(),s[i]);
+		j++;
+		if(n.length()<=t.length()){
+			h[j]=h[j-1]+power(base,j)*(n.back()-'a'+1);
+			h[j]%=MOD;
+			if(n.length()==t.length()&&h[j]==th){
+				j-=t.length();
+				for(ll i=0;i<t.length();i++){
+					n.pop_back();
+				}
+			}
+		}else{
+			h[j]=h[j-1];
+			//cout<<n[j-t.length()-1]-'a'+1<<" : "<<base*(n[j-t.length()-1]-'a'+1)<<'\n';
+			h[j]-=base*(n[j-t.length()-1]-'a'+1);
+			ll z=power(base,MOD-2);
+			h[j]*=z;
+			h[j]%=MOD;
+			h[j]+=power(base,t.length())*(n.back()-'a'+1);
+			h[j]%=MOD;
+			if(h[j]==th){
+				j-=t.length();
+				for(ll i=0;i<t.length();i++){
+					n.pop_back();
+				}
+			}
+		}
+		//cout<<h[j]<<" : "<<n<<'\n';
+		i++;
+	}
+	cout<<n<<'\n';
     return 0;
 }
 
