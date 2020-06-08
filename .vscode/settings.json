@@ -8,6 +8,10 @@
         "iomanip": "cpp",
         "unordered_map": "cpp",
         "stack": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "iosfwd": "cpp",
+        "utility": "cpp",
+        "algorithm": "cpp",
+        "ios": "cpp"
     }
 }
