@@ -22,44 +22,41 @@ using namespace std;
 typedef long long ll;
 typedef pair<long long,long long> pi;
 
-#define maxN 3000000
+long long T;
 
-long long N,K;
-long long stall[maxN];
-bool filled[maxN];
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0);
-	ifstream cin("empty.in");
-	ofstream cout("empty.out");
-	cin>>N>>K;
-	long long X,Y,A,B;
-	for(long long i=0;i<K;i++){
-		cin>>X>>Y>>A>>B;
-		for(long long j=1;j<=Y;j++){
-			stall[(A*j+B)%N]+=X;
+	cin>>T;
+	while(T--){
+		long long N,K;
+		cin>>N>>K;
+		long long s[N];
+		long long p[K];
+		long long ta[N];
+		fill(ta,ta+N,0);
+		long long cs=0;
+		
+		//cout<<"ta:";
+		for(long long i=0;i<N;i++){
+			cin>>s[i];
+			cs+=s[i];
+			if(s[i]>0){
+				ta[i]++;
+			}else{
+				ta[i]--;
+			}
+			if(i>0) ta[i]+=ta[i-1];
+			//cout<<ta[i]<<" ";
 		}
-	}
-	long long ct=0;
-	for(long long i=0;i<N;i++){
-		ct+=stall[i];
-		if(ct>0&&!filled[i]){
-			filled[i]=true;
-			ct--;
+		//cout<<endl;
+		for(long long i=0;i<K;i++){
+			cin>>p[i];
+			
+			if(ta[p[i]-1]>0){
+				cs+=ta[p[i]-1];
+			}
 		}
-	}
-	long long ci=0;
-	while(ct>0){
-		if(ct>0&&!filled[ci]){
-			filled[ci]=true;
-			ct--;
-		}
-		ci++;
-	}
-	for(long long i=0;i<N;i++){
-		if(!filled[i]){
-			cout<<i<<'\n';
-			return 0;
-		}
+		cout<<cs<<'\n';
 	}
     return 0;
 }

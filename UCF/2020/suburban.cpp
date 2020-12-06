@@ -22,43 +22,27 @@ using namespace std;
 typedef long long ll;
 typedef pair<long long,long long> pi;
 
-#define maxN 3000000
+#define INF 1000000000
 
-long long N,K;
-long long stall[maxN];
-bool filled[maxN];
+long long N;
+
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0);
-	ifstream cin("empty.in");
-	ofstream cout("empty.out");
-	cin>>N>>K;
-	long long X,Y,A,B;
-	for(long long i=0;i<K;i++){
-		cin>>X>>Y>>A>>B;
-		for(long long j=1;j<=Y;j++){
-			stall[(A*j+B)%N]+=X;
-		}
-	}
-	long long ct=0;
+	cin>>N;
+	long long x;
 	for(long long i=0;i<N;i++){
-		ct+=stall[i];
-		if(ct>0&&!filled[i]){
-			filled[i]=true;
-			ct--;
+		cin>>x;
+		double ms=INF;
+		for(long long i=0;i<sqrt((double)x);i++){
+			double ps=x-pow((double)i,2);
+			if(pow(floor(sqrt(ps)),2)==ps){
+				ms=min(ms,sqrt(ps)+i);
+			}
 		}
-	}
-	long long ci=0;
-	while(ct>0){
-		if(ct>0&&!filled[ci]){
-			filled[ci]=true;
-			ct--;
-		}
-		ci++;
-	}
-	for(long long i=0;i<N;i++){
-		if(!filled[i]){
-			cout<<i<<'\n';
-			return 0;
+		if(ms==INF){
+			cout<<-1<<'\n';
+		}else{
+			cout<<ms<<'\n';
 		}
 	}
     return 0;

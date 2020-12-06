@@ -68,6 +68,7 @@
         "unordered_set": "cpp",
         "utility": "cpp",
         "vector": "cpp",
-        "iterator": "cpp"
+        "iterator": "cpp",
+        "filesystem": "cpp"
     }
 }

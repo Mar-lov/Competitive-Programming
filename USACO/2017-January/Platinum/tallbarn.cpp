@@ -21,46 +21,53 @@ Code by @marlov
 using namespace std;
 typedef long long ll;
 typedef pair<long long,long long> pi;
-
-#define maxN 3000000
+#define maxN 100005
 
 long long N,K;
-long long stall[maxN];
-bool filled[maxN];
+long long arr[maxN];
+
+
+long long solve(double x){
+	long long tc=0;
+	for(int i=0;i<N;i++){
+		double a=arr[i]; 
+		tc+=ll((sqrt(1 + 4*a/x)-1)/2);
+	}
+	//cout<<x<<": "<<tc<<'\n';
+	return tc;
+}
+
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0);
-	ifstream cin("empty.in");
-	ofstream cout("empty.out");
+	ifstream cin("tallbarn.in");
+	ofstream cout("tallbarn.out");
 	cin>>N>>K;
-	long long X,Y,A,B;
-	for(long long i=0;i<K;i++){
-		cin>>X>>Y>>A>>B;
-		for(long long j=1;j<=Y;j++){
-			stall[(A*j+B)%N]+=X;
-		}
-	}
-	long long ct=0;
 	for(long long i=0;i<N;i++){
-		ct+=stall[i];
-		if(ct>0&&!filled[i]){
-			filled[i]=true;
-			ct--;
+		cin>>arr[i];
+	}
+	K-=N;
+	double lo=0;
+	double hi=1e18;
+	while(hi-lo>=.000000001){
+		double mid=(lo+hi)/2;
+		//cout<<"bs:"<<mid<<'\n';
+		if(solve(mid)>=K){
+			lo=mid;
+		}else{
+			hi=mid;
 		}
 	}
-	long long ci=0;
-	while(ct>0){
-		if(ct>0&&!filled[ci]){
-			filled[ci]=true;
-			ct--;
-		}
-		ci++;
+
+	double result=0;
+	long long tc=0;
+	for(int i=0;i<N;i++){
+		double a=arr[i];
+		double nc=ll((sqrt(1 + 4*a/lo)-1)/2);
+		tc+=nc;
+		//cout<<i<<" "<<nc<<'\n';
+		result+=a/(nc+1);
 	}
-	for(long long i=0;i<N;i++){
-		if(!filled[i]){
-			cout<<i<<'\n';
-			return 0;
-		}
-	}
+	cout<<(ll)round(result-(K-tc)*lo)<<'\n';
     return 0;
 }
 
