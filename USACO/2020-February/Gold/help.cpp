@@ -63,8 +63,8 @@ long long Power(long long base,long long exp){
 
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0);
-	ifstream cin("help.in");
-	ofstream cout("help.out");
+	//ifstream cin("help.in");
+	//ofstream cout("help.out");
 	cin>>N;
 	for(long long i=1;i<=N;i++){
 		cin>>arr[i].first>>arr[i].second;
@@ -84,13 +84,15 @@ int main() {
 	for(long long i=1;i<=N;i++){
 		//don't contain
 		dp[i]=add(dp[i],dp[i-1]);
-		//cout<<i<<" dont contain "<<dp[i]<<'\n';
+		cout<<i<<" dont contain "<<dp[i]<<'\n';
 		//contain outside
 		dp[i]=add(dp[i],dp[last[arr[i].first]]+Power(2,last[arr[i].first])-1);
-		//cout<<i<<" contain outside "<<dp[i]<<'\n';
+		cout<<dp[last[arr[i].first]]+Power(2,last[arr[i].first])-1<<'\n';
+		cout<<i<<" contain outside "<<dp[i]<<'\n';
 		//contain but inside
 		dp[i]=add(dp[i],Power(2,pends[arr[i].second]-pends[arr[i].first-1]-1));
-		//cout<<i<<" contain inside "<<dp[i]<<'\n';
+		cout<<i<<" contain inside "<<dp[i]<<'\n';
+
 	}
 	/*
 	for(long long i=0;i<=N;i++){

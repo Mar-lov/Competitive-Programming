@@ -37,7 +37,7 @@ long long cs=0;
 //cc=current cost
 //li=last index(dont want to change before last changed index otherwise will get overlap)
 //cv=list of index of current value that its on
-vector<int> cv=vector<int>(N+1,0);
+vector<int> cv=vector<int>(maxV,0);
 
 void check(long long maxc , long long cc , long long li){
     if(cc>maxc) return;
@@ -46,10 +46,9 @@ void check(long long maxc , long long cc , long long li){
     //recurses onto the next value
     for(long long i=li;i<N;i++){
         if(tc>=K) return;
-        if(cv[i]+1>=arr[i].size()) continue;
-        if(cc+(arr[i][cv[i]+1]-arr[i][cv[i]])<=maxc){
+        if(cv[i]+1<arr[i].size()&&cc+(arr[i][cv[i]+1])<=maxc){
         cv[i]++;
-        check(maxc,cc+(arr[i][cv[i]]-arr[i][cv[i]-1]),i);
+        check(maxc,cc+(arr[i][cv[i]]),i);
         cv[i]--;
         }else if(i!=li&&arr[i].size()!=1){
             return;
@@ -73,9 +72,13 @@ int main() {
             arr[i].push_back(cv);    
         }
         sort(arr[i].begin(),arr[i].end());
+        for(int j=arr[i].size()-1;j>0;j--){
+            arr[i][j]-=arr[i][j-1];
+        }
         baseS+=arr[i].front();
+        arr[i][0]=0;
     }
-
+    sort(arr,arr+N);
     //binary search
     long long a=baseS;
     long long b=(long long)1e13;

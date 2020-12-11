@@ -54,29 +54,30 @@ int main() {
 			bl[i][j]=bl[bl[i][j-1]][j-1];
 		}
 	}
-	cout<<endl;
 	for(int i=1;i<=N;i++){
 		int ci=i;
 		int turns=0;
 		for(int j=maxB-1;j>=0;j--){
-			while(bl[ci][j]!=0){
+			if(bl[ci][j]!=0){
 				ci=bl[ci][j];
 				turns+=pow(2,j);
 			}
 		}
-		cout<<i<<endl;
+		//cout<<i<<endl;
 		turns++;
-		if(turns>M){
+		//cout<<i<<" has "<<turns<<endl;
+		if(turns>(N-M)){
 			ci=i;
 			for(int j=0;j<maxB;j++){
-				if(M&(1<<j)){
+				if((N-M+1)&(1<<j)){
 					ci=bl[ci][j];
 				}
 			}
-			loc[i]=M+ci;
+			loc[(N-M+1)+ci]=i;
 		}else{
-			loc[i]=turns;
+			loc[turns]=i;
 		}
+		//cout<<i<<" got "<<loc[i]<<" with "<<turns<<'\n';
 	}
 	for(int i=0;i<Q;i++){
 		cout<<loc[N+1-query[i]]<<'\n';
