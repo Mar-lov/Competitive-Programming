@@ -21,9 +21,16 @@ Code by @marlov
 #include <bitset>
 using namespace std;
 typedef long long ll;
-typedef pair<int,int> ii;
+typedef pair<int,int> pi;
 
+//solve partial with dp[][]
 
+long long min_total_length( vector<int> r , vector<int> b ){
+	int result=0;
+	if(r.size()>b.size()){
+		
+	}
+}
 
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0);
@@ -31,10 +38,8 @@ int main() {
     return 0;
 }
 
-/* IF STUCK LOOK HERE
-	* int overflow, use long long
-	* array bounds
-	* edge cases (n=0,n=1)
-	* values not distinct?
+/* stuff you should look for
+	* int overflow, array bounds
+	* special cases (n=1,n=0?)
 	* do smth instead of nothing and stay organized
 */

@@ -23,6 +23,7 @@ typedef pair<ll,ll> pi;
 #define maxN 100002
 
 ll N,M;
+ll maxSpicy=0;
 pi arr[maxN];
 
 bool doable(ll s){
@@ -44,9 +45,10 @@ int main() {
 	cin>>N>>M;
 	for(int i=0;i<N;i++){
 		cin>>arr[i].first>>arr[i].second;
+     maxSpicy=max(maxSpicy,arr[i].second);
 	}
 	ll lo=0;
-	ll hi=1000000000000000000;
+	ll hi=maxSpicy;
 	while(lo<hi){
 		ll mid=(lo+hi)/2;
 		

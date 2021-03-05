@@ -22,60 +22,81 @@ typedef pair<ll,ll> pi;
 
 #define maxN 100005
 
-ll N;
-ll arr[2*maxN];
-ll result=maxN*(ll)maxN;
+int N;
+int arr[2*maxN];
+int result=100000000;
 
-ll inversions(ll a,ll b){
-	ll t=0;
-	ll c1=0;
-	for(ll i=a;i<b;i++){
-		if(arr[i]==1) c1++;
-		else t+=c1;
+int inversions(int a,int b){
+	int cv=0;
+	int t0=0;
+	for(int i=b;i>=a;i--){
+		if(arr[i]==0) t0++;
+		else cv+=t0;
 	}
-	return t;
+	return cv;
 }
 
-ll absv(long long v){
-	if(v<0) return -v;
-	return v;
+void right(){
+	int r1;
+	int l0;
+	int t1=0;
+	int t0=0;
+	for(int i=0;i<N;i++) if(arr[i]==1){r1=i;t1++;}
+	for(int i=2*N-1;i>=N;i--) if(arr[i]==0){l0=i;t0++;}
+	int lv=inversions(0,N-1);
+	int rv=inversions(N,2*N-1);
+	result=min(abs(lv-rv),result);
+	int t=0;
+	while(r1>=0&&l0<2*N){
+		t+=abs(l0-r1);
+		lv-=(N-1-r1);
+		t1--;
+		lv+=t1;
+		rv+=(l0-N-1);
+		t0--;
+		rv+=t0;
+		r1--;
+		while(r1>=0&&arr[r1]!=1) r1--;
+		l0++;
+		while(l0<2*N&&arr[l0]!=0) l0++;
+		result=min(result,t+abs(lv-rv));
+	}
+}
+
+void left(){
+	int r0;
+	int l1;
+	int t0=0;
+	int t1=0;
+	for(int i=0;i<N;i++) if(arr[i]==0){r0=i;t0++;}
+	for(int i=2*N-1;i>=N;i--) if(arr[i]==1){l1=i;t1++;}
+	int lv=inversions(0,N-1);
+	int rv=inversions(N,2*N-1);
+	result=min(result,abs(lv-rv));
+	int t=0;
+	while(l1<2*N&&r0>=0){
+		t+=abs(r0-l1);
+		lv-=(N-t0);
+		t0--;
+		rv-=(N-t1-(l1-N));
+		t1--;
+		r0--;
+		while(r0>=0&&arr[r0]!=0) r0--;
+		l1++;
+		while(l1<2*N&&arr[l1]!=1) l1++;
+		result=min(result,t+abs(lv-rv));
+	}
 }
 
 int main() {
-	//ifstream cin("balance.in");
-	//ofstream cout("balance.out");
+	ifstream cin("balance.in");
+	ofstream cout("balance.out");
 	cin>>N;
-	for(ll i=0;i<2*N;i++){
+	for(int i=0;i<2*N;i++){
 		cin>>arr[i];
 	}
-	ll invf=inversions(0,N);
-	ll invs=inversions(N,2*N);
-	ll dif=invf-invs;
-	ll mv=1;
-	if(dif>0) mv=0;
-	ll nf=0;
-	ll ns=0;
-	for(ll i=0;i<N;i++){
-		if(arr[i]==mv) nf++;
-		if(arr[i+N]!=mv) ns++;
-	}
-	ll fp=N;
-	ll sp=N-1;
-	ll cost=0;
-	while(fp>=0&&sp<2*N){
-		fp--;
-		sp++;
-		while(fp>=0&&arr[fp]==mv) fp--;
-		while(sp<2*N&&arr[sp]!=mv) sp++;
-		if(fp<0||sp>=2*N) continue;
-		cost+=(N-1-fp)+(sp-N);
-		cost++;
-		invf-=nf;
-		invs-=ns;
-		dif=invf-invs;
-		result=min(result,cost+absv(dif));
-
-	}
+	right();
+	left();
 	cout<<result<<'\n';
     return 0;
 }

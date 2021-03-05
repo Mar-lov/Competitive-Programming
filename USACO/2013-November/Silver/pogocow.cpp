@@ -27,7 +27,8 @@ typedef pair<long long,long long> pi;
 long long N;
 pi arr[maxN];
 vector< pair< long long,pair<long long,long long> > > vals;
-long long dp[maxN];
+long long dpr[maxN];
+long long dpl[maxN];
 long long result=0;
 
 bool cmp( pair<long long,pair<long long,long long> > a, pair<long long,pair<long long,long long> > b){
@@ -45,7 +46,8 @@ int main() {
 	}
 	sort(arr,arr+N);
 	for(long long i=0;i<N;i++){
-		dp[i]=arr[i].second;	
+		dpr[i]=arr[i].second;	
+		dpl[i]=arr[i].second;
 	}
 	for(long long i=0;i<N;i++){
 		for(long long j=i+1;j<N;j++){
@@ -55,11 +57,9 @@ int main() {
 	sort(vals.begin(),vals.end(),cmp);
 	for(long long k=0;k<vals.size();k++){
 		pair<long long, pair<long long,long long> > cur=vals[k];
-		dp[cur.second.second]=max(dp[cur.second.second],dp[cur.second.first]+arr[cur.second.second].second);
-		result=max(dp[cur.second.second],result);
-	}
-	for(long long i=0;i<N;i++){
-		result=max(result,dp[i]);
+		dpr[cur.second.second]=max(dpr[cur.second.second],dpr[cur.second.first]+arr[cur.second.second].second);
+		dpl[cur.second.first]=max(dpl[cur.second.first],arr[cur.second.first].second+dpl[cur.second.second]);
+		result=max(max(dpl[cur.second.first],dpr[cur.second.second]),result);
 	}
 	cout<<result<<'\n';
     return 0;
