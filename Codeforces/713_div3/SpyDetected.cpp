@@ -23,51 +23,38 @@ using namespace std;
 typedef long long ll;
 typedef pair<int,int> ii;
 
-#define maxN 100005
+#define maxN 105
 
+int T;
 int N;
 int arr[maxN];
-int AS;
-vector<int> ans;
-
-int ft[100013];
-void update(int x, int v) {while(x<=N) ft[x]+=v, x+=(x&-x);}
-int query (int x) {return (x>0 ? ft[x]+query(x-(x&-x)):0);}
+int order[maxN];
 
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0);
-	ifstream cin("permsort2.in");
-	ofstream cout("permsort2.out");
+	cin>>T;
+	while(T--){
 	cin>>N;
 	for(int i=0;i<N;i++){
-		cin>>arr[i];
+		int cur;
+		cin>>cur;
+		arr[i]=cur;
+		order[i]=cur;
 	}
-	AS=N-1;
-	update(arr[N-1],1);
-	for(int i=N-2;i>=0;i--){
-		if(arr[i+1]>arr[i]){
-			AS=i;
-			update(arr[i],1);
-		}else{
+	sort(arr,arr+N);
+	int ele;
+	if(arr[0]==arr[1]){
+		ele=arr[N-1];
+	}else{
+		ele=arr[0];
+	}
+	for(int i=0;i<N;i++){
+		if(order[i]==ele){
+			cout<<i+1<<endl;
 			break;
 		}
 	}
-	int sv=AS;
-	for(int i=0;i<sv;i++){
-		int ssv=query(arr[i]);
-		//cout<<arr[i]<<" "<<ssv<<'\n';
-		ans.push_back(AS+ssv);
-		ans.push_back(AS+ssv-1);
-		AS--;
-		update(arr[i],1);
 	}
-
-	cout<<ans.size()<<'\n';
-	for(int i=0;i<ans.size();i++){
-		cout<<"P "<<ans[i]<<'\n';
-	}
-	
-	
     return 0;
 }
 

@@ -23,51 +23,39 @@ using namespace std;
 typedef long long ll;
 typedef pair<int,int> ii;
 
-#define maxN 100005
-
 int N;
-int arr[maxN];
-int AS;
-vector<int> ans;
-
-int ft[100013];
-void update(int x, int v) {while(x<=N) ft[x]+=v, x+=(x&-x);}
-int query (int x) {return (x>0 ? ft[x]+query(x-(x&-x)):0);}
-
+vector<string> arr;
+int dups;
+multiset<string> has;
+vector<string> d;
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0);
-	ifstream cin("permsort2.in");
-	ofstream cout("permsort2.out");
 	cin>>N;
+	string input;
 	for(int i=0;i<N;i++){
-		cin>>arr[i];
+		cin>>input;
+		string ns="";
+		for(int i=0;i<5;i++){
+			ns+=input[i];
+		}
+		arr.push_back(ns);
 	}
-	AS=N-1;
-	update(arr[N-1],1);
-	for(int i=N-2;i>=0;i--){
-		if(arr[i+1]>arr[i]){
-			AS=i;
-			update(arr[i],1);
-		}else{
-			break;
+	for(int i=0;i<N;i++){
+		if(has.count(arr[i])==1){
+			dups++;
+			d.push_back(arr[i]);
+		}
+		has.insert(arr[i]);
+	}
+	if(dups==0){
+		cout<<"0"<<endl<<"duplicates: None"<<endl;
+	}else{
+		cout<<dups<<endl;
+		cout<<"duplicates: ";
+		for(int i=0;i<dups;i++){
+			cout<<d[i]<<" ";
 		}
 	}
-	int sv=AS;
-	for(int i=0;i<sv;i++){
-		int ssv=query(arr[i]);
-		//cout<<arr[i]<<" "<<ssv<<'\n';
-		ans.push_back(AS+ssv);
-		ans.push_back(AS+ssv-1);
-		AS--;
-		update(arr[i],1);
-	}
-
-	cout<<ans.size()<<'\n';
-	for(int i=0;i<ans.size();i++){
-		cout<<"P "<<ans[i]<<'\n';
-	}
-	
-	
     return 0;
 }
 

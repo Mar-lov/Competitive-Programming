@@ -23,51 +23,47 @@ using namespace std;
 typedef long long ll;
 typedef pair<int,int> ii;
 
-#define maxN 100005
-
 int N;
-int arr[maxN];
-int AS;
-vector<int> ans;
+vector<int> arr;
+int maxV=0;
+void output(int s,int c){
+	int nv=(s+1)/2;
+	for(int i=-nv;i<=nv;i++){
+		for(int z=0;z<c-s;z++){
+			cout<<" ";
+		}
+		for(int z=0;z<abs(i);z++){
+			cout<<" ";
+		}
+		if(nv==abs(i)){
+			for(int z=0;z<s;z++){
+				cout<<"#";
+			}
+			cout<<endl;
+		}else{
+			cout<<"#";
+			for(int z=0;z<s+2*(nv-abs(i)-1);z++){
+				cout<<" ";
+			}
+			cout<<"#";
+			cout<<endl;
+		}
+	}
 
-int ft[100013];
-void update(int x, int v) {while(x<=N) ft[x]+=v, x+=(x&-x);}
-int query (int x) {return (x>0 ? ft[x]+query(x-(x&-x)):0);}
+}
 
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(0);
-	ifstream cin("permsort2.in");
-	ofstream cout("permsort2.out");
 	cin>>N;
+	int val;
 	for(int i=0;i<N;i++){
-		cin>>arr[i];
+		cin>>val;
+		arr.push_back(val);
+		maxV=max(maxV,val);
 	}
-	AS=N-1;
-	update(arr[N-1],1);
-	for(int i=N-2;i>=0;i--){
-		if(arr[i+1]>arr[i]){
-			AS=i;
-			update(arr[i],1);
-		}else{
-			break;
-		}
+	for(int i=0;i<N;i++){
+		output(arr[i],maxV);
 	}
-	int sv=AS;
-	for(int i=0;i<sv;i++){
-		int ssv=query(arr[i]);
-		//cout<<arr[i]<<" "<<ssv<<'\n';
-		ans.push_back(AS+ssv);
-		ans.push_back(AS+ssv-1);
-		AS--;
-		update(arr[i],1);
-	}
-
-	cout<<ans.size()<<'\n';
-	for(int i=0;i<ans.size();i++){
-		cout<<"P "<<ans[i]<<'\n';
-	}
-	
-	
     return 0;
 }
 

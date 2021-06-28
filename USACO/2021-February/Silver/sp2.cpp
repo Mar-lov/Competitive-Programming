@@ -1,38 +1,74 @@
 #include <iostream>
-#include <iomanip>
 #include <vector>
-#include <map>
-#include <set>
 #include <algorithm>
-#include <cmath>;
+#include <utility>
 using namespace std;
-int N,K;
-vector<int> arr;
-vector<int> rM;
-int result=0;
-int main() {
-  cin>>N>>K;
-  int in;
-  for(int i=0;i<N;i++){
-    cin>>in;
-    arr.push_back(-1*in);
+
+const int B=4100;
+
+int N;
+pair<int,int> arr[100005];
+int graph[B][B];
+int total=0;
+
+int dx[4]={0,-1,0,1};
+int dy[4]={-1,0,1,0};
+
+void check(int x,int y);
+void add(int x,int y,int t);
+
+void check(int x,int y){
+  int surround=0;
+  for(int i=0;i<4;i++){
+    int nx=x+dx[i];
+    int ny=y+dy[i];
+    if(graph[nx][ny]!=-1) surround++;
   }
-  sort(arr.begin(),arr.end());
-  arr.push_back(0);
-  int leaveYear=-1*arr[0]/12;
-  result=leaveYear+1;
-  for(int i=0;i<arr.size();i++){
-    int cly=-1*arr[i]/12;
-    if(cly!=leaveYear){
-    rM.push_back(leaveYear-(cly+(arr[i]!=0?1:0)));
-    leaveYear=cly;
+
+  if(surround==3){
+    for(int i=0;i<4;i++){
+      int nx=x+dx[i];
+      int ny=y+dy[i];
+      if(graph[nx][ny]==-1){
+        add(nx,ny,1);
+        check(nx,ny);
+        break;
+      }
     }
   }
-  sort(rM.begin(),rM.end());
-  K--;
-  for(int i=0;i<K;i++){
-    result-=rM.back();
-    rM.pop_back();
+
+}
+
+void add(int x,int y,int t){
+  if(graph[x][y]==1) total--;
+  if(t==1) total++;
+  graph[x][y]=t;
+  check(x,y);
+  for(int i=0;i<4;i++){
+    int nx=x+dx[i];
+    int ny=y+dy[i];
+    if(graph[nx][ny]!=-1) check(nx,ny);
   }
-  cout<<12*result<<'\n';
+}
+
+int main(){
+  cin>>N;
+  for(int i=0;i<N;i++){
+    cin>>arr[i].first>>arr[i].second;
+    arr[i].first+=(B/2)-500;
+    arr[i].second+=(B/2)-500;
+  }
+
+  for(int i=0;i<B;i++){
+    for(int j=0;j<B;j++){
+      graph[i][j]=-1;
+    }
+  }
+
+  for(int i=0;i<N;i++){
+    add(arr[i].first,arr[i].second,0);
+    cout<<total<<'\n';
+  }
+
+  return 0;
 }
